@@ -29,11 +29,12 @@ private:
     int scanAround(int row, int col, int onlyCount);
     Ui::MinyWindow *ui;
     Matrix2D *matrix;
-    QGridLayout *gridLayout; // Matice, ve ktere jsou ulozena tlacitka
+    QGridLayout *gridLayout; // Matice, ve ktere jsou ulozena metadata
 
     void updateStatusLabel();
     QLabel *StatusLabel;
 
+    // Promene pro ukladani herniho statusu 
     int GameStatus_clicks = 0;
     int GameStatus_ends = 0;
     int GameStatus_opened = 0;
