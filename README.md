@@ -1,52 +1,48 @@
-# Hra miny
+# Minesweeper Game
 
-Tento projekt je inspirován populární logickou hrou [Hledání min](https://cs.wikipedia.org/wiki/Hled%C3%A1n%C3%AD_min). Cílem nebylo vytvořit přesnou kopii ale vytvořit její variaci. Projekt je implementován v C++ s použitím grafického frameworku QT, což umožňuje interaktivní a vizuálně přívětivé rozhraní.
+This project is inspired by the popular logic game [Minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game)). The goal was not to create an exact copy, but rather a variation of the game. The project is implemented in C++ using the QT graphical framework, which enables an interactive and visually friendly interface.
 
+## Game Description
 
-## Popis hry
-Hra začíná vytvořením hracího pole s určitými rozměry, kde jsou miny rozmístěny podle zvolené úrovně obtížnosti. Rozměry herního pole a složitost je zadaná uživatelem při spuštění hry v dialogovém okně.
+The game starts by creating a playing field of specific dimensions, where mines are distributed according to the chosen difficulty level. The dimensions of the game field and its complexity are set by the user in a dialog window at the start of the game.
 
 ![](media/setting.png)
 
-Během hry hráč kliká na dlaždice na hracím poli. Kliknutím na prázdnou dlaždici se tato otevře, a pokud sousední dlaždice neobsahují minu, automaticky se otevřou i ony. Na dlaždicích vedle min se zobrazí číslo udávající počet min v okolí, přičemž za sousední dlaždice se považují i ty v úhlopříčném směru.
+During the game, the player clicks on tiles in the playing field. Clicking on an empty tile opens it, and if the neighboring tiles do not contain a mine, they are automatically opened as well. Tiles adjacent to mines display a number indicating the number of mines nearby, with neighboring tiles including those in diagonal directions.
 
-Prohledávání bezpečných dlaždic se však omezuje pouze na ty, které sousedí s již otevřenou dlaždicí celou svou hranou, nikoli pouze vrcholem.
+However, the search for safe tiles is limited only to those that share a full edge (not just a corner) with an already opened tile.
 
-Hráč může pomocí kombinace kláves ctrl a kliknutí na dlaždici označit dlaždici, u které předpokládá minu. Takto označená dlaždice se obarví žlutě.
+The player can use the Ctrl key in combination with clicking on a tile to mark a tile where they suspect a mine. Such a marked tile is highlighted in yellow.
 
 ![Alt text](media/field.png)
 
-Pokud hráč klikne na dlaždici s minou, objeví se varovné upozornění a tato akce se zaznamená jako chybný tah.
+If the player clicks on a tile with a mine, a warning message appears and the action is recorded as a wrong move.
 
 ![Alt text](media/end.png)
 
+## Solution Description
 
-## Popis řešení 
-Pro řešení hry je využit grafický framework QT, který mimo samotných grafických komponent poskytuje další nástroje. Z QT frameworku byly dále využity například signály a konektory, běhové prostředí a atributy u QT widgetů byly využity pro předávání informací o stavu hry. Dále se využívají QTDialogy pro vstupní nastavovací menu a pro hlášku se šlápnutím na minu. 
+The game solution uses the QT graphical framework, which, in addition to graphical components, provides other tools. From the QT framework, signals and slots, the runtime environment, and QT widget attributes were used to transfer game state information. QT Dialogs are also used for the initial settings menu and for the "stepped on a mine" warning dialog.
 
+### Graphical Interface
 
-### Grafické rozhraní
+QT widgets are used to create a clear and user-friendly interface. This includes buttons for game controls, dialog windows for settings, and notifications for players about the game progress.
 
-Využívám QT widgety pro vytvoření přehledného a uživatelsky přívětivého rozhraní. To zahrnuje tlačítka pro ovládání hry, dialogová okna pro nastavení a informování hráčů o průběhu hry.
+### Game Logic
 
+The playing field is generated with mines placed randomly. The number of mines around "opened" fields is calculated in real-time after opening them. It would be possible to precompute these values, but given the high performance of modern computers, this is not necessary. I implemented the logic for revealing neighboring tiles and detecting the end of the game when a player clicks on a mine.
 
-### Herní logika
+### Interaction and Features
 
-Herní pole je generováno s náhodným rozložením min. Počet min v okolí "otevřených" polí je počítán v reálném čase po jejich otevření. Bylo by možné tyto hodnoty mít napočítané dopředu. Vzhledem k dnešnímu velmi vysokému výkonu to není potřeba řešit tímto způsobem. Implementoval jsem logiku pro odhalování sousedních políček a detekci konce hry, když hráč klikne na minu. 
+The game uses QT signals and slots to effectively respond to user actions such as clicking on a tile or selecting game settings. The code is designed with readability in mind, which makes it easier to extend in the future.
 
+## Compilation
 
-### Interakce a funkce
+The program was developed on Linux (Ubuntu 22.04). It is assumed that the QT6 framework is installed: `sudo apt install qt6-base-dev`.
 
-Hra využívá QT signály a sloty pro efektivní reakci na uživatelské akce, jako je kliknutí na políčko nebo volba nastavení hry. Kód je navržen s důrazem na čitelnost, což usnadňuje jeho možné rozšíření.
+Next, you need to run the `cmake .` and `make` commands in the source code directory.
 
-
-## Kompilace
-
-Program byl vyjíjen na linuxu (ubuntu 22.04). Předpokládá se nainstalovaný QT6 framework `sudo apt install qt6-base-dev`. 
-
-Následně je potřeba spustit `cmake .` a `make` příkazy ve složce se zdrojovými kódy.
-
-Výstup by měl vypadat přibližně následovně: 
+The output should look approximately as follows:
 
 ```bash
  $ cmake .
@@ -80,12 +76,10 @@ Výstup by měl vypadat přibližně následovně:
 [100%] Linking CXX executable Miny
 [100%] Built target Miny
 
-```
+````
 
-Nyní ve stejné složce bychom měli mít spustitelný soubor `Miny`. 
+Now, in the same folder, you should have the executable file `Miny`.
 
-Hru nyní spustíme přikazem `./Miny`.
+Run the game with the command `./Miny`.
 
-> Repozitář obsahuje binárku `Miny`, která byla zkompilovaná pro linux, x86_64. 
-
-
+> The repository contains the binary `Miny`, which was compiled for Linux, x86\_64.
